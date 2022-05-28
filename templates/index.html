@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  {% load static %}
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>UXOS</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700|Raleway:400,700&display=swap" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="{% static ' css/style.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="hero_area">
+
+  </div>
+
+  <!-- feature section -->
+  <section class="feature_section layout_padding2 layout_margin" style="background-color: green;">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Amazing Features To Use <br />
+          Our Application
+        </h2>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+       
+    </div>
+  </section>
+
+  
+
+  <section class="download_section layout_padding-bottom">
+    <div class="container">
+      
+      <div class="layout_padding2-top">
+        <div class="row">
+          <div class="col">
+            <div class="container">
+            <div class="card">
+              <div class="heading_container">
+                <h2>
+                  Multi Email Sender
+                </h2>
+              </div>
+              <form action="" method="post" id="multisender">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" id="id">
+                <div class="mb-3">
+                  <label for="formGroupExampleInput" class="form-label">Email </label>
+                  <input type="text" class="form-control" name="send_email" id="send_email" placeholder="Enter Email">
+                </div>
+                <div class="mb-3">
+                  <label for="formGroupExampleInput2" class="form-label">Subject </label>
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Enter Subject">
+                </div>
+                
+                <div class="mb-3">
+                  <label for="formGroupExampleInput" class="form-label">Message </label>
+                  <input type="textarea" class="form-control" name="message" id="message" placeholder="Enter Message...">
+                </div>
+                <div class="mb-3">
+                  <input type="submit" class="btn btn-primary" id="attack" value="Attack">
+                </div>
+              </form>
+            </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="container">
+            <div class="card">
+              <div class="heading_container">
+                <h2>
+                  Multi Time Email
+                </h2>
+              </div>
+              <form action="" method="post" id="multitimes">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" id="id">
+                <div class="mb-3">
+                  <label for="formGroupExampleInput" class="form-label">Email </label>
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
+                </div>
+                <div class="mb-3">
+                  <label for="formGroupExampleInput2" class="form-label">Subject </label>
+                  <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject Here....">
+                </div>
+                
+                <div class="mb-3">
+                  <label for="formGroupExampleInput" class="form-label">Message </label>
+                  <input type="textarea" class="form-control" name="message" id="message" placeholder="Message.....">
+                </div>
+
+                <div class="mb-3">
+                  <label for="formGroupExampleInput" class="form-label">How Many Times </label>
+                  <input type="number" class="form-control" id="no" name="no" placeholder="How Many Times.....">
+                </div>
+                <div class="mb-3">
+                  <input type="submit" class="btn btn-primary" id="attack" value="Attack">
+                </div>
+              </form>
+            </div>
+            
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end download section -->
+
+  <!-- about section -->
+
+  <!-- end about section -->
+
+  <!-- footer section -->
+
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+
+  <script>
+    function openNav() {
+      document.getElementById("myNav").classList.toggle("menu_width");
+      document
+        .querySelector(".custom_menu-btn")
+        .classList.toggle("menu_btn-style");
+    }
+  </script>
+
+<script>
+  $(function(){
+
+    $('#multitimes').submit(function(e){
+      e.preventDefault();
+      let data = new FormData($(this)[0])
+      $.ajax({
+        type: "post",
+        url: "{% url 'multitimes' %}",
+        data: data,
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          console.log(response.response);
+        }
+      });
+    })
+
+    $('#multisender').submit(function(e){
+      e.preventDefault();
+      let data = new FormData($(this)[0])
+      
+      let email = $('#send_email').val() 
+      let emails = email.split(',')
+      console.log(emails);
+      data.append('emails', emails)
+      $.ajax({
+        type: "post",
+        url: "{% url 'multisender' %}",
+        data: data,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          console.log(response.response);
+        }
+      });
+    })
+
+
+  })
+</script>
+
+</body>
+
+</html>
